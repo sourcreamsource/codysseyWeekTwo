@@ -6,7 +6,6 @@ __pycache__/
 venv/
 dist/
 build/
-state.json
 .ignorefolder*/
 .env
 .guide*
