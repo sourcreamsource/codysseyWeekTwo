@@ -1,17 +1,44 @@
+import json
 from app.models.quiz import Quiz
 from app.views.console_view import ConsoleView
 
 # 퀴즈 전체를 컨트롤하는 존재
 class QuizGame:
     def __init__(self):
-        # self.quiz = Quiz()
+        # 화면 출력 전용 객체
         self.view = ConsoleView()
+
+        # 메모리에 올라온 Quiz 객체들을 저장하는 리스트
+        self.quizzes: list[Quiz] = []
+
+        # 최고 점수 저장
+        self.best_score = 0
+
+        # 플레이 기록 저장
+        self.game_history: list[dict] = []
+
+        # 저장할 파일 이름
+        self.state_file = "state.json"
 
     # ----------------------------
     # json 파일 읽어서 Quiz 객체로 만들기
     # JSON 파일을 읽으면 자동으로 dict가 됩니다
     def read_json_data(self) -> None:
-        pass
+        # 1. state.json 파일을 읽는다.
+        with open(self.state_file, "r", encoding="utf-8") as file:
+            data = json.load(file)
+            # print(data) # 확인용
+
+        # 2. quizzes 키에 들어있는 dict 목록을 꺼낸다.
+        quiz_dict_list = data["quizzes"]
+        
+
+        # 3. dict 하나를 Quiz 객체 하나로 바꿔서 메모리에 올린다.
+        self.quizzes = [Quiz.dict_to_quiz(quiz_data) for quiz_data in quiz_dict_list]
+
+        # 4. 점수와 기록도 같이 메모리에 올린다.
+        self.best_score = data["best_score"]
+        self.game_history = data["game_history"]
 
     # Quiz 객체를 json 파일로 저장하기
     # 🔥 이부분이 어렵다고 생각함
@@ -121,4 +148,3 @@ class QuizGame:
 
 # def exit_game(self) -> None:
 #     pass
-
