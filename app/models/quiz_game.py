@@ -3,9 +3,9 @@ from app.views.console_view import ConsoleView
 
 # 퀴즈 전체를 컨트롤하는 존재
 class QuizGame:
-    def __init__(self, quiz: Quiz, view: ConsoleView):
-        self.quiz = quiz
-        self.console_view = view
+    def __init__(self):
+        # self.quiz = Quiz()
+        self.view = ConsoleView()
 
     # ----------------------------
     # json 파일 읽어서 Quiz 객체로 만들기
@@ -18,12 +18,6 @@ class QuizGame:
     def save_dict_data_to_json(self) -> None:
         pass
 
-
-    # ----------------------------
-    # 메뉴 표시
-    # 요구사항 때문에 여기에 만들고 controller에서 호출하는 형태로 만듬.
-    def show_quiz_menu(self):
-        self.console_view.show_menu() 
 
 
     # ----------------------------
@@ -56,47 +50,55 @@ class QuizGame:
     
     # ----------------------------
     def input_and_validate(self) -> int:
-        value = input("🔢 번호 선택: ")
-        # 
-        # return select
+        input_value = input("🔢 번호 선택: ")
+        print('\n')
+        # validation class function 추가하기
+        return input_value # tpye 변환 해야합니다. util 폴더 만들어도 됨
 
     # ----------------------------
     def run(self) -> None:
-        # 여기는 controller 니까 여기서는 다 합쳐도 된다고 생각하자!!!
-        while True:
+        
+        self.view.show_welcome()
 
+        while True:
             # 메뉴 보여주기
-            self.game.show_quiz_menu()
+            self.view.show_menu() 
 
             # 사용자 입력 받기
             select = self.input_and_validate()
 
-            if select == "1":    # 회원가입
-                self.db_member_dict_list.append(self.sign.sign_up())
-                print(f"(확인용) 현재 입력되어있는 회원 리스트 : {self.db_member_dict_list}")
-                self.record_member_num()
-                print(f"(확인용) 회원번호 기록여부 : {self.member_number_set}")
+            if select == "1":   
+                # 1. 퀴즈 풀기
+                fake_num_data = 999
+                self.view.show_start_message(fake_num_data)
+    
 
-            elif select == "2":  # 로그인
-                self.is_logged_in, self.logged_member_number = self.sign.sign_in(self.db_member_dict_list, self.is_logged_in, self.logged_member_number)
-                self.posts = Posts(self.is_logged_in, self.logged_member_number)
+            elif select == "2": 
+                # 2. 퀴즈 추가
+                # 📌 새로운 퀴즈를 추가합니다.
+                self.view.add_new_quiz()
+                
 
-            elif select == "3":  # 개인정보 조회
-                self.sign.list_person_info(self.db_member_dict_list, self.is_logged_in, self.logged_member_number)
+            elif select == "3": 
+                # 3. 퀴즈 목록
+                fake_list_data = ['퀴즈1','퀴즈2','퀴즈3','퀴즈4','퀴즈5']
+                self.view.show_quiz_list(fake_list_data)
 
-            elif select == "4":  # 개인정보 수정
-                self.db_member_dict_list = self.sign.modify_person_info(self.db_member_dict_list, self.is_logged_in, self.logged_member_number)
-                print(f"(확인용) 현재 수정 이후 회원 리스트 : {self.db_member_dict_list}")
+            elif select == "4": 
+                # 4. 점수 확인
+                best_score = 80 # fake
+                total = 5 # fake
+                correct_num = 4 # fake
+                self.view.show_score_history(best_score, total, correct_num)
+                
 
-            elif select == "5":  # 회원 탈퇴
-                self.db_member_dict_list = self.sign.quit_member(self.db_member_dict_list, self.is_logged_in, self.logged_member_number)
-                print(f"(확인용) 현재 탈퇴 이후 회원 리스트 : {self.db_member_dict_list}")
-            
-            elif select == "0":
-                return print("👋 bye, bye..  종료합니다.")
+            elif select == "5": 
+                # 5. 종료
+                break
+                # return?
+                
             else:
-                print("올바른 번호를 입력하세요.")
-
+                print("⚠️ 올바른 메뉴 번호를 입력하세요.")
 
 
 
