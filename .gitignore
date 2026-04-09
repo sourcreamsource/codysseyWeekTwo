@@ -7,5 +7,6 @@ venv/
 dist/
 build/
 state.json
-.ignorefolder_*/
+.ignorefolder*/
 .env
+.guide*
