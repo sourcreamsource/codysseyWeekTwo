@@ -10,3 +10,4 @@ build/
 state.json
 .env
 .guide*
+.vscode/
