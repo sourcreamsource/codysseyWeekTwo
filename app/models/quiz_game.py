@@ -116,6 +116,7 @@ class QuizGame:
     # ----------------------------
     def run(self) -> None:
         # 프로그램이 시작되면 먼저 state.json 데이터를 메모리로 읽어온다.
+        # 🔥 근데 매번 메뉴가 끝날 때마다 리팩토링? 되어야 하는 것 아닌가? 그렇기 때문에 while문 안에서 첫 단계에서 돌아야 하는 것 아닌가 싶습니다.
         self.read_json_data()
 
         self.view.show_welcome()
