@@ -141,8 +141,8 @@ class QuizGame:
 
             elif select == "3": 
                 # 3. 퀴즈 목록
-                fake_list_data = ['퀴즈1','퀴즈2','퀴즈3','퀴즈4','퀴즈5']
-                self.view.show_quiz_list(fake_list_data)
+                # state.json 에서 읽어온 실제 Quiz 객체 목록을 보여준다.
+                self.view.show_quiz_list(self.quizzes)
 
             elif select == "4": 
                 # 4. 점수 확인
