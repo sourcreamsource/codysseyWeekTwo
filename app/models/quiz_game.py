@@ -9,6 +9,7 @@ class QuizGame:
         self.view = ConsoleView()
 
         # 메모리에 올라온 Quiz 객체들을 저장하는 리스트
+        # 🔥 ex. 붕어빵을 열심히 찍어낸다. 여기서 객체의 진정한 역할을 알게됨.
         self.quizzes: list[Quiz] = []
 
         # 최고 점수 저장
@@ -40,10 +41,27 @@ class QuizGame:
         self.best_score = data["best_score"]
         self.game_history = data["game_history"]
 
+    # ----------------------------
     # Quiz 객체를 json 파일로 저장하기
     # 🔥 이부분이 어렵다고 생각함
     def save_dict_data_to_json(self) -> None:
-        pass
+        # 1. 메모리에 있는 Quiz 객체들을 dict 형태로 바꾼다.
+        quiz_dict_list = [quiz.quiz_to_dict() for quiz in self.quizzes]
+                # ⚠️ 이미 quizzes Quiz()객체 이기 때문에 이 객체의 quiz_to_dict()를 실행한 것.
+                # 그럼 이 list는 dict list가 되겠지.
+
+        # 2. JSON 파일에 저장할 전체 데이터를 하나의 dict로 만든다.
+        # 🔥 다시 이렇게 모은다.
+        data = {
+            "quizzes": quiz_dict_list, # 전체 퀴즈 dict list
+            "best_score": self.best_score,
+            "game_history": self.game_history,
+        }
+
+        # 3. 위에서 만든 dict를 state.json 파일로 저장한다. (dump)
+        # write
+        with open(self.state_file, "w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
 
 
 
@@ -85,6 +103,7 @@ class QuizGame:
     # ----------------------------
     def run(self) -> None:
         
+
         self.view.show_welcome()
 
         while True:
@@ -121,6 +140,8 @@ class QuizGame:
 
             elif select == "5": 
                 # 5. 종료
+                # 프로그램이 끝나기 전에 현재 상태를 state.json에 저장한다.
+                self.save_dict_data_to_json()
                 break
                 # return?
                 
