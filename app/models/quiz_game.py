@@ -130,8 +130,8 @@ class QuizGame:
 
             if select == "1":   
                 # 1. 퀴즈 풀기
-                fake_num_data = 999
-                self.view.show_start_message(fake_num_data)
+                # 현재 메모리에 올라온 실제 퀴즈 개수를 보여준다.
+                self.view.show_start_message(len(self.quizzes))
     
 
             elif select == "2": 
