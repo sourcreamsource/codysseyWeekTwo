@@ -28,6 +28,13 @@ class ConsoleView:
                 break
             print(f"{i}. {choice}")
 
+    def show_is_correct(self, is_correct: bool):
+        if is_correct:
+            print("✅ 정답입니다!")
+        else:
+            print("❌ 오답입니다!")
+
+
     def show_quiz_result(self, total, correct_num, score, best_score):
         print(f"🏆 결과: {total}문제 중 {correct_num}문제 정답! ({score}점)")
         if best_score:

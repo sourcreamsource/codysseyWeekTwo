@@ -95,9 +95,16 @@ class QuizGame:
         # 그 객체(하나의 문제의 객체)의 문제와 선택지를 화면에 보여주는 코드.
         first_quiz.show_one_quiz()
 
-        # ➡️ 지금은 1개의 문제만 보여주고 있지만,객체마다마다 하나씩 for문으로 끄집어내고,
-            # 각 객체마다 input을 받아서 채점까지 해야겠지
-            # 그리고 그대로 기록을 해야할텐데??
+        # 사용자에게 정답 번호를 입력받는다.
+        user_answer = input("정답 입력: ")
+
+        # input()은 문자열이라서 숫자 비교를 위해 int로 바꾼다.
+        user_answer = int(user_answer)
+
+        # Quiz 객체의 is_correct()를 사용해서 정답 여부를 확인한다.
+        is_correct = first_quiz.is_correct(user_answer)
+        # 맞았는지에 대한 내용을 출력한다.
+        self.view.show_is_correct(is_correct)
 
 
     # ----------------------------

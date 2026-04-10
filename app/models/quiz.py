@@ -16,6 +16,8 @@ class Quiz:
     def is_correct(self, user_answer: int) -> bool:
         return self.answer == user_answer
 
+    def hint(self) -> str:
+        pass
 
     # ----------------------------------------
     # JSON 파일  →  딕셔너리  →  Quiz 객체
