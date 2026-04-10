@@ -102,7 +102,8 @@ class QuizGame:
 
     # ----------------------------
     def run(self) -> None:
-        
+        # 프로그램이 시작되면 먼저 state.json 데이터를 메모리로 읽어온다.
+        self.read_json_data()
 
         self.view.show_welcome()
 
