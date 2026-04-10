@@ -1,4 +1,5 @@
 import json
+from app.data.tmp_data import create_default_json
 from app.models.quiz import Quiz
 from app.views.console_view import ConsoleView
 
@@ -25,21 +26,33 @@ class QuizGame:
     # json 파일 읽어서 Quiz 객체로 만들기
     # JSON 파일을 읽으면 자동으로 dict가 됩니다
     def read_json_data(self) -> None:
-        # 1. state.json 파일을 읽는다.
-        with open(self.state_file, "r", encoding="utf-8") as file:
-            data = json.load(file)
-            # print(data) # 확인용
+        try:
+            # 1. state.json 파일을 읽는다.
+            with open(self.state_file, "r", encoding="utf-8") as file:
+                data = json.load(file)
+                # print(data) # 확인용
 
-        # 2. quizzes 키에 들어있는 dict 목록을 꺼낸다.
-        quiz_dict_list = data["quizzes"]
-        
+            # 2. quizzes 키에 들어있는 dict 목록을 꺼낸다.
+            quiz_dict_list = data["quizzes"]
 
-        # 3. dict 하나를 Quiz 객체 하나로 바꿔서 메모리에 올린다.
-        self.quizzes = [Quiz.dict_to_quiz(quiz_data) for quiz_data in quiz_dict_list]
+            # 3. dict 하나를 Quiz 객체 하나로 바꿔서 메모리에 올린다.
+            self.quizzes = [Quiz.dict_to_quiz(quiz_data) for quiz_data in quiz_dict_list]
 
-        # 4. 점수와 기록도 같이 메모리에 올린다.
-        self.best_score = data["best_score"]
-        self.game_history = data["game_history"]
+            # 4. 점수와 기록도 같이 메모리에 올린다.
+            self.best_score = data["best_score"]
+            self.game_history = data["game_history"]
+
+        except FileNotFoundError:
+            # 파일이 없으면 기본 state.json 파일을 만든 뒤 다시 읽는다.
+            self.view.show_error("state.json 파일이 없어서 기본 데이터를 생성합니다.")
+            create_default_json()
+            self.read_json_data()
+
+        except (json.JSONDecodeError, KeyError):
+            # 파일이 손상되었으면 기본 state.json 파일을 다시 만든 뒤 읽는다.
+            self.view.show_error("state.json 데이터가 손상되어 기본 데이터로 복구합니다.")
+            create_default_json()
+            self.read_json_data()
 
     # ----------------------------
     # Quiz 객체를 json 파일로 저장하기

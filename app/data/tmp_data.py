@@ -40,9 +40,9 @@ def create_default_json():
         "game_history": []
     }
 
-    # 2. 저장 경로 설정 (부모 디렉토리의 state.json)
-    # data/ 폴더 안에 있으므로 '..'을 사용하여 상위(루트) 디렉토리로 이동합니다.
-    file_path = os.path.join(os.path.dirname(__file__), "..", "state.json")
+    # 2. 저장 경로 설정 (프로젝트 루트의 state.json)
+    # data/ 폴더 안에 있으므로 '..', '..'을 사용하여 루트 디렉토리로 이동합니다.
+    file_path = os.path.join(os.path.dirname(__file__), "..", "..", "state.json")
 
     # 3. 파일 쓰기 (UTF-8 인코딩 적용)
     try:
