@@ -11,6 +11,7 @@ class QuizGame:
 
         # 메모리에 올라온 Quiz 객체들을 저장하는 리스트
         # 🔥 ex. 붕어빵을 열심히 찍어낸다. 여기서 객체의 진정한 역할을 알게됨.
+        # list[Quiz] = Quiz 객체들을 담는 리스트
         self.quizzes: list[Quiz] = []
 
         # 최고 점수 저장
@@ -79,10 +80,24 @@ class QuizGame:
 
 
     # ----------------------------
-    # QuizGame이 가지고 있는 Quiz 객체들을 순서대로 채점한다.
+    # QuizGame이 가지고 있는 Quiz 객체들을 순서대로 보여주고 채점한다.
     def quiz_start(self):
-        pass
+        # 퀴즈가 하나도 없으면 더 이상 진행하지 않는다.
+        if not self.quizzes: # 이미 elf.quizzes가 객체입니다.
+            self.view.show_error("등록된 퀴즈가 없습니다.")
+            return
 
+        # 첫 번째 Quiz 객체를 꺼낸다.
+        # self.quizzes 여러개의 객체 중에 지금 1개를 꺼냈고,
+        first_quiz = self.quizzes[0] 
+
+        # 꺼낸 Quiz 객체 하나가 first_quiz이고,
+        # 그 객체(하나의 문제의 객체)의 문제와 선택지를 화면에 보여주는 코드.
+        first_quiz.show_one_quiz()
+
+        # ➡️ 지금은 1개의 문제만 보여주고 있지만,객체마다마다 하나씩 for문으로 끄집어내고,
+            # 각 객체마다 input을 받아서 채점까지 해야겠지
+            # 그리고 그대로 기록을 해야할텐데??
 
 
     # ----------------------------
@@ -104,6 +119,7 @@ class QuizGame:
     # 퀴즈 삭제하기
     def remove_quiz(self):
         pass
+
 
     
     # ----------------------------
@@ -132,13 +148,12 @@ class QuizGame:
                 # 1. 퀴즈 풀기
                 # 현재 메모리에 올라온 실제 퀴즈 개수를 보여준다.
                 self.view.show_start_message(len(self.quizzes))
-    
+                self.quiz_start()
 
             elif select == "2": 
                 # 2. 퀴즈 추가
                 # 📌 새로운 퀴즈를 추가합니다.
                 self.view.add_new_quiz()
-                
 
             elif select == "3": 
                 # 3. 퀴즈 목록
@@ -151,7 +166,6 @@ class QuizGame:
                 total = 5 # fake
                 correct_num = 4 # fake
                 self.view.show_score_history(best_score, total, correct_num)
-                
 
             elif select == "5": 
                 # 5. 종료
