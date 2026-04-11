@@ -1,7 +1,7 @@
 import json
 import os
 
-def create_default_json():
+def create_default_json() -> bool:
     # 1. 저장할 기본 데이터 구성
     default_data = {
         "quizzes": [
@@ -50,8 +50,10 @@ def create_default_json():
             # json.dump() 함수는 파이썬 객체를 JSON 형식으로 변환하여 파일에 저장합니다.
             json.dump(default_data, f, ensure_ascii=False, indent=4)
         print("✅ state.json 파일이 루트 디렉토리에 생성되었습니다.")
+        return True
     except Exception as e:
         print(f"❌ 파일 생성 중 오류 발생: {e}")
+        return False
 
 if __name__ == "__main__":
     create_default_json()

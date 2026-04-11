@@ -50,13 +50,19 @@ class QuizGame:
         except FileNotFoundError:
             # 파일이 없으면 기본 state.json 파일을 만든 뒤 다시 읽는다.
             self.view.show_error("state.json 파일이 없어서 기본 데이터를 생성합니다.")
-            create_default_json()
+            is_created = create_default_json()
+            if not is_created:
+                self.view.show_error("기본 state.json 생성에 실패했습니다.")
+                return
             self.read_json_data()
 
         except (json.JSONDecodeError, KeyError):
             # 파일이 손상되었으면 기본 state.json 파일을 다시 만든 뒤 읽는다.
             self.view.show_error("state.json 데이터가 손상되어 기본 데이터로 복구합니다.")
-            create_default_json()
+            is_created = create_default_json()
+            if not is_created:
+                self.view.show_error("기본 state.json 생성에 실패했습니다.")
+                return
             self.read_json_data()
 
 
