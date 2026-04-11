@@ -264,22 +264,29 @@ class QuizGame:
                 self.quiz_start()
 
             elif select == "2": 
-                # 2. 퀴즈 추가
+                # 2. 퀴즈 풀기 (문제 수 지정, 랜덤 출제)
+                self.view.show_error("아직 준비 중인 기능입니다.")
+
+            elif select == "3": 
+                # 3. 퀴즈 추가
                 # 📌 새로운 퀴즈를 추가합니다.
                 self.view.add_new_quiz()
                 self.add_quiz()
 
-            elif select == "3": 
-                # 3. 퀴즈 목록
-                # state.json 에서 읽어온 실제 Quiz 객체 목록을 보여준다.
-                self.view.show_quiz_list(self.quizzes)
-
             elif select == "4": 
-                # 4. 점수 확인
-                self.check_quiz_score()
+                # 4. 퀴즈 삭제
+                self.remove_quiz()
 
             elif select == "5": 
-                # 5. 종료
+                # 5. 점수 확인
+                self.check_quiz_score()
+
+            elif select == "6": 
+                # 6. 문제 기록 보기
+                self.view.show_error("아직 준비 중인 기능입니다.")
+
+            elif select == "7": 
+                # 7. 종료
                 # 프로그램이 끝나기 전에 현재 상태를 state.json에 저장한다.
                 self.save_dict_data_to_json()
                 break
