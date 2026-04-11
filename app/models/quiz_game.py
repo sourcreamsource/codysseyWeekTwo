@@ -2,12 +2,16 @@ import json
 from app.data.tmp_data import create_default_json
 from app.models.quiz import Quiz
 from app.views.console_view import ConsoleView
+from app.views.input_view import InputView
 
 # 퀴즈 전체를 컨트롤하는 존재
 class QuizGame:
     def __init__(self):
         # 화면 출력 전용 객체
         self.view = ConsoleView()
+
+        # 입력 처리 전용 객체
+        self.input_view = InputView()
 
         # 메모리에 올라온 Quiz 객체들을 저장하는 리스트
         # 🔥 ex. 붕어빵을 열심히 찍어낸다. 여기서 객체의 진정한 역할을 알게됨.
@@ -55,6 +59,35 @@ class QuizGame:
             create_default_json()
             self.read_json_data()
 
+
+    # ----------------------------
+    # QuizGame이 가지고 있는 Quiz 객체들을 순서대로 보여주고 채점한다.
+    def quiz_start(self):
+        # 퀴즈가 하나도 없으면 더 이상 진행하지 않는다.
+        if not self.quizzes: # 이미 elf.quizzes가 객체입니다.
+            self.view.show_error("등록된 퀴즈가 없습니다.")
+            return
+
+        # 첫 번째 Quiz 객체를 꺼낸다.
+        # self.quizzes 여러개의 객체 중에 지금 1개를 꺼냈고,
+        first_quiz = self.quizzes[0] 
+
+        # 꺼낸 Quiz 객체 하나가 first_quiz이고,
+        # 그 객체(하나의 문제의 객체)의 문제와 선택지를 화면에 보여주는 코드.
+        first_quiz.show_one_quiz()
+
+        # 입력 처리 클래스에서 정답 입력을 받고, 최대 5번까지 재시도한다.
+        user_answer = self.input_view.input_quiz_answer()
+        if user_answer is None:
+            return
+
+        # Quiz 객체의 is_correct()를 사용해서 정답 여부를 확인한다.
+        is_correct = first_quiz.is_correct(user_answer)
+        # 맞았는지에 대한 내용을 출력한다.
+        self.view.show_is_correct(is_correct)
+
+
+
     # ----------------------------
     # Quiz 객체를 json 파일로 저장하기
     # 🔥 이부분이 어렵다고 생각함
@@ -80,34 +113,6 @@ class QuizGame:
 
 
     # ----------------------------
-    # QuizGame이 가지고 있는 Quiz 객체들을 순서대로 보여주고 채점한다.
-    def quiz_start(self):
-        # 퀴즈가 하나도 없으면 더 이상 진행하지 않는다.
-        if not self.quizzes: # 이미 elf.quizzes가 객체입니다.
-            self.view.show_error("등록된 퀴즈가 없습니다.")
-            return
-
-        # 첫 번째 Quiz 객체를 꺼낸다.
-        # self.quizzes 여러개의 객체 중에 지금 1개를 꺼냈고,
-        first_quiz = self.quizzes[0] 
-
-        # 꺼낸 Quiz 객체 하나가 first_quiz이고,
-        # 그 객체(하나의 문제의 객체)의 문제와 선택지를 화면에 보여주는 코드.
-        first_quiz.show_one_quiz()
-
-        # 사용자에게 정답 번호를 입력받는다.
-        user_answer = input("정답 입력: ")
-
-        # input()은 문자열이라서 숫자 비교를 위해 int로 바꾼다.
-        user_answer = int(user_answer)
-
-        # Quiz 객체의 is_correct()를 사용해서 정답 여부를 확인한다.
-        is_correct = first_quiz.is_correct(user_answer)
-        # 맞았는지에 대한 내용을 출력한다.
-        self.view.show_is_correct(is_correct)
-
-
-    # ----------------------------
     # 점수 확인하기
     def check_quiz_score(self):
         pass
@@ -128,13 +133,8 @@ class QuizGame:
         pass
 
 
-    
-    # ----------------------------
-    def input_and_validate(self) -> int:
-        input_value = input("🔢 번호 선택: ")
-        print('\n')
-        # validation class function 추가하기
-        return input_value # tpye 변환 해야합니다. util 폴더 만들어도 됨
+
+
 
     # ----------------------------
     def run(self) -> None:
@@ -149,7 +149,7 @@ class QuizGame:
             self.view.show_menu() 
 
             # 사용자 입력 받기
-            select = self.input_and_validate()
+            select = input('메뉴를 선택해주세요.')
 
             if select == "1":   
                 # 1. 퀴즈 풀기
