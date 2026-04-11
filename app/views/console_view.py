@@ -8,7 +8,7 @@ class ConsoleView:
 
     # -----------------------------------------------------------
     def show_menu(self):
-        print('========================================')
+        print('\n\n========================================')
         print('        🎯 나만의 퀴즈 게임 🎯  ')
         print('========================================')
         print('1. 퀴즈 풀기')
@@ -23,7 +23,7 @@ class ConsoleView:
 
     # -----------------------------------------------------------
     def show_start_message(self, count_quiz):
-        print(f'📝 퀴즈를 시작합니다! (총 {count_quiz}문제)')
+        print(f'📝 퀴즈를 시작합니다! (총 {count_quiz}문제)\n')
 
     # -----------------------------------------------------------   
     def show_one_quiz(self, question: str, choices: list[str]):
@@ -36,9 +36,9 @@ class ConsoleView:
     # -----------------------------------------------------------   
     def show_is_correct(self, is_correct: bool):
         if is_correct:
-            print("✅ 정답입니다!")
+            print("✅ 정답입니다!\n")
         else:
-            print("❌ 오답입니다!")
+            print("❌ 오답입니다!\n")
 
     # -----------------------------------------------------------   
     def show_hint(self, hint: str):
