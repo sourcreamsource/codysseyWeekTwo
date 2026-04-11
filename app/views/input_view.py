@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from app.validation.validation import Validation
 from app.views.console_view import ConsoleView
 
