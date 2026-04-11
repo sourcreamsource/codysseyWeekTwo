@@ -234,7 +234,32 @@ class QuizGame:
     # =======================================================
     # 퀴즈 삭제하기
     def remove_quiz(self):
-        pass
+        # 퀴즈가 없으면 삭제를 진행하지 않는다.
+        if not self.quizzes:
+            self.view.show_error("❌ 삭제할 퀴즈가 없습니다.")
+            return
+        
+        self.view.show_remove_quiz()
+
+        # 삭제할 수 있도록 현재 퀴즈 목록을 먼저 보여준다.
+        self.view.show_quiz_list(self.quizzes)
+
+        # 사용자가 삭제할 퀴즈 번호를 입력한다.
+        selected_num = self.input_view.input_remove_quiz_num(len(self.quizzes))
+        if selected_num is None:
+            return
+
+        # 실제 삭제할 indx 지정.
+        remove_index = selected_num - 1
+
+        # 선택한 퀴즈를 삭제한다.
+        del self.quizzes[remove_index]
+
+        # 삭제 결과를 state.json에 저장한다.
+        self.save_dict_data_to_json()
+
+        # 삭제 완료를 사용자에게 알려준다.
+        self.view.show_remove_quiz_success()
 
 
     # =======================================================
@@ -297,25 +322,3 @@ class QuizGame:
                 
             else:
                 print("⚠️ 올바른 메뉴 번호를 입력하세요.")
-
-
-
-# def start_quiz(self) -> None:
-#     pass
-
-# def create_quiz(self) -> Quiz:
-#     pass
-
-# def add_quiz(self) -> None:
-#     pass
-
-# def show_quiz_list(self) -> None:
-#     pass
-
-# def show_score(self) -> None:
-#     pass
-
-
-
-# def exit_game(self) -> None:
-#     pass
