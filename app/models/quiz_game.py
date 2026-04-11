@@ -263,6 +263,12 @@ class QuizGame:
 
 
     # =======================================================
+    # 문제 기록 보기
+    def view_game_history(self):
+        self.view.show_game_history(self.game_history)
+
+
+    # =======================================================
     def run(self) -> None:
         # 프로그램이 시작되면 먼저 state.json 데이터를 메모리로 읽어온다.
         # 🔥 근데 매번 메뉴가 끝날 때마다 리팩토링? 되어야 하는 것 아닌가? 그렇기 때문에 while문 안에서 첫 단계에서 돌아야 하는 것 아닌가 싶습니다.
@@ -311,7 +317,7 @@ class QuizGame:
 
             elif select == "7": 
                 # 7. 문제 기록 보기
-                self.view.show_error("아직 준비 중인 기능입니다.")
+                self.view_game_history()
 
             elif select == "8": 
                 # 8. 종료

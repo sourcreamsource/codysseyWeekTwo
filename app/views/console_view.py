@@ -93,6 +93,25 @@ class ConsoleView:
 
 
     # -----------------------------------------------------------   
+    def show_game_history(self, game_history):
+        print('📜 게임 기록')
+
+        if not game_history:
+            print('아직 게임 기록이 없습니다.')
+            return
+
+        for index, history in enumerate(game_history, start=1):
+            # 키 자체가 없을 수 있다. 없을 경우 에러가 나는 것을 방지하기 위해 get을 씀.
+            date = history.get("date", "날짜 없음")
+            questions = history.get("questions", 0)
+            correct = history.get("correct", 0)
+            hint_count = history.get("hint_count", 0)
+            score = history.get("score", 0)
+
+            print(f'{index}. {date} / {questions}문제 중 {correct}문제 정답 / 힌트 {hint_count}회 / {score}점')
+
+
+    # -----------------------------------------------------------   
     def show_error(self, message: str):
         # 에러가 발생했을 경우
         print(f'❌ 에러: {message}')
