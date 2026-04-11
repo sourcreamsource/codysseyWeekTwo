@@ -25,3 +25,8 @@ class Validation:
             return False
 
         return 1 <= int(num) <= 4
+
+    def validate_use_hint(self, answer: str) -> bool:
+        # 힌트 사용 여부는 y 또는 n만 허용한다.
+        answer = answer.strip().lower()
+        return answer == "y" or answer == "n"

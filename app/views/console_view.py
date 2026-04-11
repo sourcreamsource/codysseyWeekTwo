@@ -2,9 +2,11 @@ class ConsoleView:
     def __init__(self):
         pass
 
+    # -----------------------------------------------------------
     def show_welcome(self):
         print('안녕하세요. 지금부터 퀴즈 게임을 시작하겠습니다.')
 
+    # -----------------------------------------------------------
     def show_menu(self):
         print('========================================')
         print('        🎯 나만의 퀴즈 게임 🎯  ')
@@ -16,7 +18,7 @@ class ConsoleView:
         print('5. 종료')
         print('========================================')
 
-
+    # -----------------------------------------------------------
     def show_start_message(self, count_quiz):
         print(f'📝 퀴즈를 시작합니다! (총 {count_quiz}문제)')
 
@@ -36,6 +38,13 @@ class ConsoleView:
             print("❌ 오답입니다!")
 
     # -----------------------------------------------------------   
+    def show_hint(self, hint: str):
+        if not hint or hint == "":
+            print("💡 등록된 힌트가 없습니다.")
+            return
+        print(f"💡 힌트: {hint}")
+
+    # -----------------------------------------------------------   
     def show_quiz_result(self, total, correct_num, score, best_score):
         print(f"🏆 결과: {total}문제 중 {correct_num}문제 정답! ({score}점)")
         if best_score:
@@ -51,7 +60,6 @@ class ConsoleView:
     def show_score_history(self, best_score, total, correct_num):
         print(f'🏆 최고 점수: {best_score}점 ({total}문제 중 {correct_num}문제 정답)')
         
-
     
     # -----------------------------------------------------------   
     def show_quiz_list(self, quizzes):

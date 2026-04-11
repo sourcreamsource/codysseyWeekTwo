@@ -100,3 +100,22 @@ class InputView:
     # 퀴즈 힌트를 입력받는다. 힌트는 비워둘 수 있다.
     def input_quiz_hint(self) -> str:
         return input("힌트를 입력하세요 (Enter로 생략 가능): ").strip()
+
+    # ============================================================
+    # 퀴즈 풀이 중 힌트를 볼지 입력받는다.
+    def input_use_hint(self) -> bool:
+        attempt = 1
+
+        while attempt <= 5:
+            answer = input("힌트를 보시겠습니까? (y/n): ").strip().lower()
+
+            # 검증에 통과하면 y인지 아닌지를 bool로 반환한다.
+            if self.validation.validate_use_hint(answer):
+                return answer == "y"
+
+            print(f"⚠️ y 또는 n만 입력하세요. \n\t시도 횟수: ({attempt}/5)\n")
+            attempt += 1
+
+        # 5번 모두 실패하면 힌트를 보지 않고 진행한다.
+        self.view.show_error("⚠️ 힌트 선택 5회 실패로 힌트를 보지 않고 진행합니다.")
+        return False

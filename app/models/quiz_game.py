@@ -83,6 +83,10 @@ class QuizGame:
             # 꺼낸 Quiz 객체의 문제와 선택지를 화면에 보여준다.
             quiz.show_one_quiz()
 
+            # 사용자가 원하면 힌트를 보여준다. (이 위치가 적절한 것 같다.)
+            if self.input_view.input_use_hint():
+                self.view.show_hint(quiz.get_hint())
+
             # 입력 처리 클래스에서 정답 입력을 받고, 최대 5번까지 재시도한다.
             user_answer = self.input_view.input_quiz_answer()
             if user_answer is None:
