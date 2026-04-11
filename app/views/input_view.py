@@ -35,7 +35,7 @@ class InputView:
         attempt = 1
 
         while attempt <= 5:
-            num = input("정답 입력: ")
+            num = input("💬 정답 입력: ")
 
             # 검증에 통과하면 숫자로 바꿔 반환한다.
             if self.validation.validate_quiz_answer_num(num):
@@ -57,7 +57,7 @@ class InputView:
         question = ""
 
         while attempt <= 5:
-            question = input("문제를 입력하세요: ").strip()
+            question = input("🤔 문제를 입력하세요: ").strip()
             if question:
                 break
 
@@ -107,7 +107,7 @@ class InputView:
         attempt = 1
 
         while attempt <= 5:
-            answer = input("💡 힌트를 보시겠습니까? (y/n): ").strip().lower()
+            answer = input("💬 💡 힌트를 보시겠습니까? (y/n): ").strip().lower()
 
             # 검증에 통과하면 y인지 아닌지를 bool로 반환한다.
             if self.validation.validate_use_hint(answer):
@@ -126,7 +126,7 @@ class InputView:
         attempt = 1
 
         while attempt <= 5:
-            num = input("삭제할 퀴즈 번호를 입력하세요: ")
+            num = input("💬 삭제할 퀴즈 번호를 입력하세요: ")
 
             # 검증에 통과하면 숫자로 바꿔 반환한다.
             if self.validation.validate_remove_quiz_num(num, quiz_count):
@@ -144,7 +144,7 @@ class InputView:
         attempt = 1
 
         while attempt <= 5:
-            num = input(f"몇 문제를 풀까요? (1~{quiz_count}): ")
+            num = input(f"💬 몇 문제를 풀까요? (1~{quiz_count}): ")
 
             # 검증에 통과하면 숫자로 바꿔 반환한다.
             if self.validation.validate_quiz_count(num, quiz_count):

@@ -43,7 +43,7 @@ class ConsoleView:
     # -----------------------------------------------------------   
     def show_hint(self, hint: str) -> bool:
         if not hint or hint == "":
-            print("💡 ❌ 등록된 힌트가 없습니다.")
+            print("💡 🙅🏻‍♀️ 등록된 힌트가 없습니다.")
             return False
         print(f"💡 힌트: {hint}")
         return True
