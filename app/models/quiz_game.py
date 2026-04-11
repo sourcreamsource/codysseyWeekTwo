@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from app.data.tmp_data import create_default_json
 from app.models.quiz import Quiz
@@ -114,6 +115,17 @@ class QuizGame:
         is_best_score = score > self.best_score
         if is_best_score:
             self.best_score = score
+
+        # josn에 진행한 game history 부분을 기록하는 것!
+        game_result = {
+            "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "questions": total,
+            "correct": correct_num,
+            "score": score,
+        }
+
+        # 만든 게임 기록을 전체 기록 리스트에 추가한다.
+        self.game_history.append(game_result)
 
         # 최종 결과를 화면에 보여준다.
         self.view.show_quiz_result(total, correct_num, score, is_best_score)
