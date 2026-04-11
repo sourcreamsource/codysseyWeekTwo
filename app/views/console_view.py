@@ -4,7 +4,7 @@ class ConsoleView:
 
     # -----------------------------------------------------------
     def show_welcome(self):
-        print('안녕하세요. 지금부터 퀴즈 게임을 시작하겠습니다.')
+        print('\n<<< 안녕하세요.👋 지금부터 퀴즈 게임을 시작하겠습니다! >>>')
 
     # -----------------------------------------------------------
     def show_menu(self):
@@ -12,12 +12,12 @@ class ConsoleView:
         print('        🎯 나만의 퀴즈 게임 🎯  ')
         print('========================================')
         print('1. 퀴즈 풀기')
-        print('2. 퀴즈 풀기 (문제 수 지정, 랜덤 출제)')
+        print('2. 랜덤 퀴즈 풀기 (문제 수 지정)')
         print('3. 퀴즈 목록 보기')
         print('4. 퀴즈 추가하기')
         print('5. 퀴즈 삭제하기')
         print('6. 점수 확인하기')
-        print('7. 문제 기록 보기')
+        print('7. 기록 보기')
         print('8. 종료')
         print('========================================')
 
@@ -41,11 +41,12 @@ class ConsoleView:
             print("❌ 오답입니다!\n")
 
     # -----------------------------------------------------------   
-    def show_hint(self, hint: str):
+    def show_hint(self, hint: str) -> bool:
         if not hint or hint == "":
-            print("💡 등록된 힌트가 없습니다.")
-            return
+            print("💡 ❌ 등록된 힌트가 없습니다.")
+            return False
         print(f"💡 힌트: {hint}")
+        return True
 
     # -----------------------------------------------------------   
     def show_quiz_result(self, total, correct_num, score, best_score):
@@ -114,4 +115,4 @@ class ConsoleView:
     # -----------------------------------------------------------   
     def show_error(self, message: str):
         # 에러가 발생했을 경우
-        print(f'❌ 에러: {message}')
+        print(f'❌ 에러: {message}\n')
