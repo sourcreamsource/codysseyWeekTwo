@@ -78,6 +78,9 @@ class QuizGame:
         # 맞힌 문제 수를 저장한다.
         correct_num = 0
 
+        # 힌트를 사용한 횟수를 저장한다.
+        hint_count = 0
+
         # self.quizzes 안에 있는 Quiz 객체들을 하나씩 꺼내서 문제를 푼다.
         for quiz in self.quizzes:
             # 꺼낸 Quiz 객체의 문제와 선택지를 화면에 보여준다.
@@ -86,6 +89,7 @@ class QuizGame:
             # 사용자가 원하면 힌트를 보여준다. (이 위치가 적절한 것 같다.)
             if self.input_view.input_use_hint():
                 self.view.show_hint(quiz.get_hint())
+                hint_count += 1
 
             # 입력 처리 클래스에서 정답 입력을 받고, 최대 5번까지 재시도한다.
             user_answer = self.input_view.input_quiz_answer()
@@ -103,17 +107,26 @@ class QuizGame:
                 correct_num += 1
 
         # 최종 결과를 계산하고 화면에 보여준다.
-        self.quiz_result(correct_num)
+        self.quiz_result(correct_num, hint_count)
 
 
     # =======================================================
     # 퀴즈 결과를 계산하고 화면에 보여준다.
-    def quiz_result(self, correct_num: int) -> None:
+    def quiz_result(self, correct_num: int, hint_count: int) -> None:
         # 전체 문제 수를 구한다.
         total = len(self.quizzes)
         
         # 100점 만점 기준 점수를 계산한다.
         score = int((correct_num / total) * 100)
+
+        # -------------------------------------
+        # 힌트를 사용하면 힌트 1회당 1점을 차감한다.
+        score -= hint_count * 1
+
+        # 점수가 음수가 되지 않도록 막는다.
+        if score < 0:
+            score = 0
+        # -------------------------------------
 
         # 현재 점수가 최고 점수보다 높으면 최고 점수를 갱신한다.
         is_best_score = score > self.best_score
@@ -125,6 +138,7 @@ class QuizGame:
             "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "questions": total,
             "correct": correct_num,
+            "hint_count": hint_count,
             "score": score,
         }
 
