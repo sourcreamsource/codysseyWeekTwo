@@ -44,3 +44,17 @@ class Validation:
 
         selected_num = int(num)
         return 1 <= selected_num <= quiz_count
+
+
+    def validate_quiz_count(self, num: str, quiz_count: int) -> bool:
+        # 풀 문제 수는 숫자이면서 실제 퀴즈 개수 범위 안에 있어야 한다.
+        num = num.strip()
+
+        if not num:
+            return False
+
+        if not num.isdigit():
+            return False
+
+        selected_num = int(num)
+        return 1 <= selected_num <= quiz_count
