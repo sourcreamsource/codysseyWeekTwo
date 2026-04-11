@@ -95,3 +95,8 @@ class InputView:
             choices.append(choice)
 
         return choices
+
+    # ============================================================
+    # 퀴즈 힌트를 입력받는다. 힌트는 비워둘 수 있다.
+    def input_quiz_hint(self) -> str:
+        return input("힌트를 입력하세요 (Enter로 생략 가능): ").strip()

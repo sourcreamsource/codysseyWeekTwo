@@ -172,12 +172,6 @@ class QuizGame:
 
 
     # =======================================================
-    # 퀴즈 목록 표시
-    def view_quiz_list(self):
-        pass
-
-
-    # =======================================================
     # 퀴즈 추가하기
     def add_quiz(self):
         # InputView에서 새 퀴즈 문제를 입력받는다.
@@ -195,10 +189,14 @@ class QuizGame:
         if answer is None:
             return
 
+        # InputView에서 힌트를 입력받는다. 힌트는 비워둘 수 있다.
+        hint = self.input_view.input_quiz_hint()
+
         quiz_data = {
             "question": question,
             "choices": choices,
             "answer": answer,
+            "hint": hint,
         }
 
         # dict 데이터를 Quiz 객체로 바꾼다.
