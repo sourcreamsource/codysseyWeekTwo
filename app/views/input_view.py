@@ -119,3 +119,21 @@ class InputView:
         # 5번 모두 실패하면 힌트를 보지 않고 진행한다.
         self.view.show_error("⚠️ 힌트 선택 5회 실패로 힌트를 보지 않고 진행합니다.")
         return False
+
+    # ============================================================
+    # 삭제할 퀴즈 번호를 입력받는다.
+    def input_remove_quiz_num(self, quiz_count: int) -> int | None:
+        attempt = 1
+
+        while attempt <= 5:
+            num = input("삭제할 퀴즈 번호를 입력하세요: ")
+
+            # 검증에 통과하면 숫자로 바꿔 반환한다.
+            if self.validation.validate_remove_quiz_num(num, quiz_count):
+                return int(num.strip())
+
+            print(f"⚠️ 존재하는 퀴즈 번호를 입력하세요. \n\t시도 횟수: ({attempt}/5)\n")
+            attempt += 1
+
+        self.view.show_error("삭제 번호 입력 5회 실패로 퀴즈 삭제가 취소되었습니다.")
+        return None

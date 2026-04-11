@@ -85,6 +85,14 @@ class ConsoleView:
 
 
     # -----------------------------------------------------------   
+    def show_remove_quiz(self):
+        print('📌 퀴즈를 삭제합니다.')
+
+    def show_remove_quiz_success(self):
+        print('✅ 퀴즈가 삭제되었습니다!')
+
+
+    # -----------------------------------------------------------   
     def show_error(self, message: str):
         # 에러가 발생했을 경우
         print(f'❌ 에러: {message}')
