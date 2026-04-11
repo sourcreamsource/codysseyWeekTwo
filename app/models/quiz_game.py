@@ -158,7 +158,20 @@ class QuizGame:
     # ----------------------------
     # 점수 확인하기
     def check_quiz_score(self):
-        pass
+        # 아직 퀴즈를 푼 기록이 없으면 안내하고 종료한다.
+        if not self.game_history:
+            self.view.show_error("아직 퀴즈를 푼 기록이 없습니다.")
+            return
+
+        # 가장 최근 게임 기록을 꺼낸다.
+        latest_history = self.game_history[-1]
+
+        # 최고 점수와 최근 게임의 문제 수/정답 수를 화면에 보여준다.
+        self.view.show_score_history(
+            self.best_score,
+            latest_history["questions"],
+            latest_history["correct"],
+        )
 
 
 
@@ -217,10 +230,7 @@ class QuizGame:
 
             elif select == "4": 
                 # 4. 점수 확인
-                best_score = 80 # fake
-                total = 5 # fake
-                correct_num = 4 # fake
-                self.view.show_score_history(best_score, total, correct_num)
+                self.check_quiz_score()
 
             elif select == "5": 
                 # 5. 종료
