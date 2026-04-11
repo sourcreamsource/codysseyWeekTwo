@@ -14,7 +14,7 @@ class QuizGame:
         # 입력 처리 전용 객체
         self.input_view = InputView()
 
-        # 메모리에 올라온 Quiz 객체들을 저장하는 리스트
+        # 🟩 메모리에 올라온 Quiz 객체들을 저장하는 리스트
         # 🔥 ex. 붕어빵을 열심히 찍어낸다. 여기서 객체의 진정한 역할을 알게됨.
         # list[Quiz] = Quiz 객체들을 담는 리스트
         self.quizzes: list[Quiz] = []
@@ -28,7 +28,7 @@ class QuizGame:
         # 저장할 파일 이름
         self.state_file = "state.json"
 
-    # ----------------------------
+    # =======================================================
     # json 파일 읽어서 Quiz 객체로 만들기
     # JSON 파일을 읽으면 자동으로 dict가 됩니다
     def read_json_data(self) -> None:
@@ -67,7 +67,7 @@ class QuizGame:
             self.read_json_data()
 
 
-    # ----------------------------
+    # =======================================================
     # QuizGame이 가지고 있는 Quiz 객체들을 순서대로 보여주고 채점한다.
     def quiz_start(self):
         # 퀴즈가 하나도 없으면 더 이상 진행하지 않는다.
@@ -102,7 +102,7 @@ class QuizGame:
         self.quiz_result(correct_num)
 
 
-    # ----------------------------
+    # =======================================================
     # 퀴즈 결과를 계산하고 화면에 보여준다.
     def quiz_result(self, correct_num: int) -> None:
         # 전체 문제 수를 구한다.
@@ -131,17 +131,14 @@ class QuizGame:
         self.view.show_quiz_result(total, correct_num, score, is_best_score)
 
 
-    # ----------------------------
+    # =======================================================
     # Quiz 객체를 json 파일로 저장하기
     # 🔥 이부분이 어렵다고 생각함
     def save_dict_data_to_json(self) -> None:
         # 1. 메모리에 있는 Quiz 객체들을 dict 형태로 바꾼다.
         quiz_dict_list = [quiz.quiz_to_dict() for quiz in self.quizzes]
-                # ⚠️ 이미 quizzes Quiz()객체 이기 때문에 이 객체의 quiz_to_dict()를 실행한 것.
-                # 그럼 이 list는 dict list가 되겠지.
 
         # 2. JSON 파일에 저장할 전체 데이터를 하나의 dict로 만든다.
-        # 🔥 다시 이렇게 모은다.
         data = {
             "quizzes": quiz_dict_list, # 전체 퀴즈 dict list
             "best_score": self.best_score,
@@ -155,7 +152,7 @@ class QuizGame:
 
 
 
-    # ----------------------------
+    # =======================================================
     # 점수 확인하기
     def check_quiz_score(self):
         # 아직 퀴즈를 푼 기록이 없으면 안내하고 종료한다.
@@ -174,25 +171,53 @@ class QuizGame:
         )
 
 
-
-    # ----------------------------
+    # =======================================================
     # 퀴즈 목록 표시
     def view_quiz_list(self):
         pass
 
+
+    # =======================================================
     # 퀴즈 추가하기
     def add_quiz(self):
-        pass
+        # InputView에서 새 퀴즈 문제를 입력받는다.
+        question = self.input_view.input_quiz_question()
+        if question is None:
+            return
 
+        # InputView에서 선택지 4개를 입력받는다.
+        choices = self.input_view.input_quiz_choices()
+        if choices is None:
+            return
+
+        # InputView에서 정답 번호를 입력받는다.
+        answer = self.input_view.input_quiz_answer()
+        if answer is None:
+            return
+
+        quiz_data = {
+            "question": question,
+            "choices": choices,
+            "answer": answer,
+        }
+
+        # dict 데이터를 Quiz 객체로 바꾼다.
+        new_quiz = Quiz.dict_to_quiz(quiz_data)
+
+        # 메모리에 올라온 퀴즈 목록에 새 Quiz 객체를 추가한다.
+        self.quizzes.append(new_quiz)
+
+        # 추가한 퀴즈가 종료 전에 사라지지 않도록 바로 저장한다.
+        self.save_dict_data_to_json()
+
+
+    # =======================================================
     # 퀴즈 삭제하기
     def remove_quiz(self):
         pass
 
 
-
-
-
-    # ----------------------------
+    # =======================================================
     def run(self) -> None:
         # 프로그램이 시작되면 먼저 state.json 데이터를 메모리로 읽어온다.
         # 🔥 근데 매번 메뉴가 끝날 때마다 리팩토링? 되어야 하는 것 아닌가? 그렇기 때문에 while문 안에서 첫 단계에서 돌아야 하는 것 아닌가 싶습니다.
@@ -222,6 +247,7 @@ class QuizGame:
                 # 2. 퀴즈 추가
                 # 📌 새로운 퀴즈를 추가합니다.
                 self.view.add_new_quiz()
+                self.add_quiz()
 
             elif select == "3": 
                 # 3. 퀴즈 목록
