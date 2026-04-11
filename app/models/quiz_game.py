@@ -97,6 +97,26 @@ class QuizGame:
             if is_correct:
                 correct_num += 1
 
+        # 최종 결과를 계산하고 화면에 보여준다.
+        self.quiz_result(correct_num)
+
+
+    # ----------------------------
+    # 퀴즈 결과를 계산하고 화면에 보여준다.
+    def quiz_result(self, correct_num: int) -> None:
+        # 전체 문제 수를 구한다.
+        total = len(self.quizzes)
+        
+        # 100점 만점 기준 점수를 계산한다.
+        score = int((correct_num / total) * 100)
+
+        # 현재 점수가 최고 점수보다 높으면 최고 점수를 갱신한다.
+        is_best_score = score > self.best_score
+        if is_best_score:
+            self.best_score = score
+
+        # 최종 결과를 화면에 보여준다.
+        self.view.show_quiz_result(total, correct_num, score, is_best_score)
 
 
     # ----------------------------
