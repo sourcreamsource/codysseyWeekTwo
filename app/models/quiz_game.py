@@ -74,23 +74,28 @@ class QuizGame:
             self.view.show_error("등록된 퀴즈가 없습니다.")
             return
 
-        # 첫 번째 Quiz 객체를 꺼낸다.
-        # self.quizzes 여러개의 객체 중에 지금 1개를 꺼냈고,
-        first_quiz = self.quizzes[0] 
+        # 맞힌 문제 수를 저장한다.
+        correct_num = 0
 
-        # 꺼낸 Quiz 객체 하나가 first_quiz이고,
-        # 그 객체(하나의 문제의 객체)의 문제와 선택지를 화면에 보여주는 코드.
-        first_quiz.show_one_quiz()
+        # self.quizzes 안에 있는 Quiz 객체들을 하나씩 꺼내서 문제를 푼다.
+        for quiz in self.quizzes:
+            # 꺼낸 Quiz 객체의 문제와 선택지를 화면에 보여준다.
+            quiz.show_one_quiz()
 
-        # 입력 처리 클래스에서 정답 입력을 받고, 최대 5번까지 재시도한다.
-        user_answer = self.input_view.input_quiz_answer()
-        if user_answer is None:
-            return
+            # 입력 처리 클래스에서 정답 입력을 받고, 최대 5번까지 재시도한다.
+            user_answer = self.input_view.input_quiz_answer()
+            if user_answer is None:
+                return
 
-        # Quiz 객체의 is_correct()를 사용해서 정답 여부를 확인한다.
-        is_correct = first_quiz.is_correct(user_answer)
-        # 맞았는지에 대한 내용을 출력한다.
-        self.view.show_is_correct(is_correct)
+            # Quiz 객체의 is_correct()를 사용해서 정답 여부를 확인한다.
+            is_correct = quiz.is_correct(user_answer)
+
+            # 맞았는지에 대한 내용을 출력한다.
+            self.view.show_is_correct(is_correct)
+
+            # 정답이면 맞힌 개수를 1 증가시킨다.
+            if is_correct:
+                correct_num += 1
 
 
 
