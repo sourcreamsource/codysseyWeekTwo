@@ -4,6 +4,26 @@ from app.views.console_view import ConsoleView
 class InputView:
     def __init__(self) -> None:
         self.validation = Validation()
+        self.view = ConsoleView()
+
+    def input_menu_selection(self) -> str | None:
+        # 최대 5번까지 입력을 다시 받는다.
+        attempt = 1
+
+        while attempt <= 5:
+            num = input("🔢 번호 선택: ")
+            print("\n")
+
+            # 검증에 통과하면 공백을 제거한 값을 반환한다.
+            if self.validation.validate_menu_selection_num(num):
+                return num.strip()
+
+            print(f"⚠️ 올바른 메뉴 번호를 입력하세요. \n\t시도 횟수: ({attempt}/5)\n")
+            attempt += 1
+
+        # 5번 모두 실패하면 종료 신호를 보낸다.
+        self.view.show_error("메뉴 입력 5회 실패로 프로그램이 종료되었습니다.")
+        return None
 
     def input_quiz_answer(self) -> int | None:
         # 최대 5번까지 입력을 다시 받는다.

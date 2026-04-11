@@ -149,7 +149,12 @@ class QuizGame:
             self.view.show_menu() 
 
             # 사용자 입력 받기
-            select = input('메뉴를 선택해주세요.')
+            select = self.input_view.input_menu_selection()
+            # 사용자 입력 문제가 반복되면 저장하고 종료!
+            if select is None:
+                self.save_dict_data_to_json()
+                break
+
 
             if select == "1":   
                 # 1. 퀴즈 풀기
