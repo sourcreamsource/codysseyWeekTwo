@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+import random
 from app.data.tmp_data import create_default_json
 from app.models.quiz import Quiz
 from app.views.console_view import ConsoleView
@@ -111,10 +112,55 @@ class QuizGame:
 
 
     # =======================================================
+    # 문제 수를 지정하고 랜덤으로 퀴즈를 푼다.
+    def quiz_start_random_by_count(self):
+        # 퀴즈가 하나도 없으면 더 이상 진행하지 않는다.
+        if not self.quizzes:
+            self.view.show_error("등록된 퀴즈가 없습니다.")
+            return
+
+        # 사용자가 풀 문제 수를 입력한다.
+        quiz_count = self.input_view.input_quiz_count(len(self.quizzes))
+        if quiz_count is None:
+            return
+
+        # 전체 퀴즈 중에서 입력한 개수만큼 랜덤으로 뽑는다.
+        # random.sample(seq, k)  |  중복 없이 k개 뽑아 새로운 리스트로 만든다
+            # 순서가 있는 형태 = sequence = list, range, tuple, string 
+        selected_quizzes = random.sample(self.quizzes, quiz_count)
+
+        # 맞힌 문제 수와 힌트 사용 횟수를 저장한다.
+        correct_num = 0
+        hint_count = 0
+
+        # 랜덤으로 뽑힌 Quiz 객체들을 하나씩 꺼내서 문제를 푼다.
+        for quiz in selected_quizzes:
+            quiz.show_one_quiz()
+
+            if self.input_view.input_use_hint():
+                self.view.show_hint(quiz.get_hint())
+                hint_count += 1
+
+            user_answer = self.input_view.input_quiz_answer()
+            if user_answer is None:
+                return
+
+            is_correct = quiz.is_correct(user_answer)
+            self.view.show_is_correct(is_correct)
+
+            if is_correct:
+                correct_num += 1
+
+        # 랜덤으로 푼 문제 수 기준으로 결과를 계산하고 화면에 보여준다.
+        self.quiz_result(correct_num, hint_count, quiz_count)
+
+
+    # =======================================================
     # 퀴즈 결과를 계산하고 화면에 보여준다.
-    def quiz_result(self, correct_num: int, hint_count: int) -> None:
+    def quiz_result(self, correct_num: int, hint_count: int, total: int | None = None) -> None:
         # 전체 문제 수를 구한다.
-        total = len(self.quizzes)
+        if total is None:
+            total = len(self.quizzes)
         
         # 100점 만점 기준 점수를 계산한다.
         score = int((correct_num / total) * 100)
@@ -296,7 +342,8 @@ class QuizGame:
 
             elif select == "2": 
                 # 2. 퀴즈 풀기 (문제 수 지정, 랜덤 출제)
-                self.view.show_error("아직 준비 중인 기능입니다.")
+                self.view.show_start_message(len(self.quizzes))
+                self.quiz_start_random_by_count()
 
             elif select == "3": 
                 # 3. 퀴즈 목록 보기

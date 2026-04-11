@@ -24,7 +24,7 @@ class InputView:
             attempt += 1
 
         # 5번 모두 실패하면 종료 신호를 보낸다.
-        self.view.show_error("메뉴 입력 5회 실패로 프로그램이 종료되었습니다.")
+        self.view.show_error("⚠️ 메뉴 입력 5회 실패로 프로그램이 종료되었습니다.")
         return None
 
     # ============================================================
@@ -45,7 +45,7 @@ class InputView:
             attempt += 1
 
         # 5번 모두 실패하면 종료 신호를 보낸다.
-        self.view.show_error("정답 입력 5회 실패로 퀴즈가 종료되었습니다.")
+        self.view.show_error("⚠️ 정답 입력 5회 실패로 퀴즈가 종료되었습니다.")
         return None
 
 
@@ -65,7 +65,7 @@ class InputView:
             attempt += 1
 
         if not question:
-            self.view.show_error("문제 입력 5회 실패로 퀴즈 추가가 취소되었습니다.")
+            self.view.show_error("⚠️ 문제 입력 5회 실패로 퀴즈 추가가 취소되었습니다.")
             return None
 
         return question
@@ -89,7 +89,7 @@ class InputView:
                 attempt += 1
 
             if not choice:
-                self.view.show_error("선택지 입력 5회 실패로 퀴즈 추가가 취소되었습니다.")
+                self.view.show_error("⚠️ 선택지 입력 5회 실패로 퀴즈 추가가 취소되었습니다.")
                 return None
 
             choices.append(choice)
@@ -135,5 +135,23 @@ class InputView:
             print(f"⚠️ 존재하는 퀴즈 번호를 입력하세요. \n\t시도 횟수: ({attempt}/5)\n")
             attempt += 1
 
-        self.view.show_error("삭제 번호 입력 5회 실패로 퀴즈 삭제가 취소되었습니다.")
+        self.view.show_error("⚠️ 삭제 번호 입력 5회 실패로 퀴즈 삭제가 취소되었습니다.")
+        return None
+
+    # ============================================================
+    # 랜덤 출제에서 풀 문제 수를 입력받는다.
+    def input_quiz_count(self, quiz_count: int) -> int | None:
+        attempt = 1
+
+        while attempt <= 5:
+            num = input(f"몇 문제를 풀까요? (1~{quiz_count}): ")
+
+            # 검증에 통과하면 숫자로 바꿔 반환한다.
+            if self.validation.validate_quiz_count(num, quiz_count):
+                return int(num.strip())
+
+            print(f"⚠️ 1부터 {quiz_count} 사이의 숫자를 입력하세요. \n\t시도 횟수: ({attempt}/5)\n")
+            attempt += 1
+
+        self.view.show_error("⚠️ 문제 수 입력 5회 실패로 랜덤 퀴즈가 취소되었습니다.")
         return None
