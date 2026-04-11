@@ -57,8 +57,9 @@ class ConsoleView:
 
 
     # -----------------------------------------------------------   
-    def show_score_history(self, best_score, total, correct_num):
+    def show_score_history(self, best_score, total, correct_num, hint_count):
         print(f'🏆 최고 점수: {best_score}점 ({total}문제 중 {correct_num}문제 정답)')
+        print(f'💡 최근 힌트 사용 횟수: {hint_count}회')
         
     
     # -----------------------------------------------------------   

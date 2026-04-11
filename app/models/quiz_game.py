@@ -186,6 +186,7 @@ class QuizGame:
             self.best_score,
             latest_history["questions"],
             latest_history["correct"],
+            latest_history.get("hint_count", 0),
         )
 
 
