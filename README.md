@@ -2,7 +2,7 @@
 
 ## 📜 프로젝트 개요  
 - Python 콘솔 퀴즈 게임을 만드는 프로젝트  
-- Python과 Git은 "내가 만든 프로그램이 왜 이렇게 동작하는지"를 설명하고, 그 과정을 기록하며 성장하기 위한 핵심 도구  
+- Python과 Git은 "내가 만든 프로그램이 왜 이렇게 동작하는지"를 설명하고, 그 과정을 기록하며 성장하기 위함.  
 - `Quiz`, `QuizGame`, `ConsoleView`, `InputView`, `Validation`의 역할을 나누어 구현한다.  
 - 모델, 입력/출력 뷰, 검증 클래스를 분리해 각 파일의 책임이 섞이지 않도록 구성한다.  
 - `state.json`으로 퀴즈 목록, 최고 점수, 게임 기록을 저장한다.  
@@ -29,6 +29,83 @@
     - 실행 방법  
         - uv run main.py  
 - Git: 2.51.0  
+
+
+
+<br><br>
+
+## 📁 파일 구조  
+- `models`: 퀴즈 객체와 게임 전체 흐름 담당  
+- `views`: 콘솔 출력과 사용자 입력 담당  
+- `validation`: 메뉴 번호, 정답 번호, 삭제 번호 등 입력 검증 담당  
+- `data`: 기본 `state.json` 생성용 더미 데이터 담당  
+- `main.py`: 프로그램 실행 진입점  
+- `state.json`: 퀴즈 목록, 최고 점수, 게임 기록 저장 파일  
+
+```markdown
+    📦 codysseyWeekTwo  
+    ┣ 📂 app  
+    ┃ ┣ 📂 data  
+    ┃ ┃ ┗ 📄 tmp_data.py  
+    ┃ ┣ 📂 models  
+    ┃ ┃ ┣ 📄 quiz.py  
+    ┃ ┃ ┗ 📄 quiz_game.py  
+    ┃ ┣ 📂 validation  
+    ┃ ┃ ┗ 📄 validation.py  
+    ┃ ┗ 📂 views  
+    ┃   ┣ 📄 console_view.py  
+    ┃   ┗ 📄 input_view.py  
+    ┣ 📂 docs  
+    ┃ ┗ 📂 01_requirements  
+    ┣ 📄 main.py  
+    ┣ 📄 state.json  
+    ┣ 📄 README.md  
+    ┣ 📄 .gitignore  
+    ┣ 📄 pyproject.toml  
+    ┣ 📄 uv.lock  
+    ┗ 📄 poetry.lock  
+```
+
+
+<br><br>
+
+## 🎮 메뉴 구성  
+- `1. 퀴즈 풀기`: 저장된 전체 퀴즈를 순서대로 푼다.  
+- `2. 랜덤 퀴즈 풀기`: 풀 문제 수를 입력하고 해당 개수만큼 랜덤 출제한다.  
+- `3. 퀴즈 목록 보기`: 저장된 퀴즈 목록과 힌트 여부를 확인한다.  
+- `4. 퀴즈 추가하기`: 문제, 선택지 4개, 정답 번호, 힌트를 입력해 새 퀴즈를 추가한다.  
+- `5. 퀴즈 삭제하기`: 목록에서 번호를 선택해 퀴즈를 삭제한다.  
+- `6. 점수 확인하기`: 최고 점수와 최근 기록 정보를 확인한다.  
+- `7. 기록 보기`: 날짜별 게임 기록을 확인한다.  
+- `8. 종료`: 현재 상태를 저장하고 프로그램을 종료한다.  
+
+
+
+
+<br><br>
+
+## 🧩 클래스 역할 정리  
+- `Quiz`: 퀴즈 1문제를 표현한다. 문제, 선택지, 정답, 힌트를 속성으로 가진다.  
+- `QuizGame`: 게임 전체를 관리한다. 퀴즈 목록, 최고 점수, 게임 기록, 저장/불러오기, 메뉴 흐름을 담당한다.  
+- `ConsoleView`: 콘솔 출력 담당이다. 메뉴, 문제, 결과, 점수, 기록, 에러 메시지를 출력한다.  
+- `InputView`: 콘솔 입력 담당이다. 메뉴 번호, 정답 번호, 퀴즈 추가 입력, 삭제 번호, 힌트 사용 여부를 입력받는다.  
+- `Validation`: 입력 검증 담당이다. 메뉴 범위, 정답 범위, 삭제 번호 범위, 힌트 사용 여부 등을 검사한다.  
+
+
+
+<br><br>
+
+## 🛡️ 입력 검증 및 예외 처리  
+- 메뉴 번호는 `1~8` 사이의 숫자만 허용한다.  
+- 정답 번호는 `1~4` 사이의 숫자만 허용한다.  
+- 랜덤 퀴즈의 문제 수는 `1~현재 퀴즈 개수` 사이의 숫자만 허용한다.  
+- 퀴즈 삭제 번호는 실제 존재하는 퀴즈 번호만 허용한다.  
+- 문제와 선택지는 빈 문자열을 허용하지 않는다.  
+- 잘못된 입력은 최대 5회까지 다시 입력받는다.  
+- `Ctrl+C`로 인한 `KeyboardInterrupt` 발생 시 현재 상태를 저장하고 종료한다.  
+- 입력 스트림 종료로 인한 `EOFError` 발생 시 현재 상태를 저장하고 종료한다.  
+- `state.json` 파일이 없거나 손상된 경우 `app/data/tmp_data.py`의 기본 데이터로 복구한다.  
+
 
 <br><br>
 
@@ -127,41 +204,32 @@
 
 
 
-
-
 <br><br>
 
-## 📁 파일 구조  
-- `models`: 퀴즈 객체와 게임 전체 흐름 담당  
-- `views`: 콘솔 출력과 사용자 입력 담당  
-- `validation`: 메뉴 번호, 정답 번호, 삭제 번호 등 입력 검증 담당  
-- `data`: 기본 `state.json` 생성용 더미 데이터 담당  
-- `main.py`: 프로그램 실행 진입점  
-- `state.json`: 퀴즈 목록, 최고 점수, 게임 기록 저장 파일  
+## 🌿 Git 작업 방식  
+요구사항에 맞춰 기능 단위 브랜치를 만들고, 기능 완료 후 `main`에 `--no-ff` 방식으로 병합한다.  
 
-```markdown
-    📦 codysseyWeekTwo  
-    ┣ 📂 app  
-    ┃ ┣ 📂 data  
-    ┃ ┃ ┗ 📄 tmp_data.py  
-    ┃ ┣ 📂 models  
-    ┃ ┃ ┣ 📄 quiz.py  
-    ┃ ┃ ┗ 📄 quiz_game.py  
-    ┃ ┣ 📂 validation  
-    ┃ ┃ ┗ 📄 validation.py  
-    ┃ ┗ 📂 views  
-    ┃   ┣ 📄 console_view.py  
-    ┃   ┗ 📄 input_view.py  
-    ┣ 📂 docs  
-    ┃ ┗ 📂 01_requirements  
-    ┣ 📄 main.py  
-    ┣ 📄 state.json  
-    ┣ 📄 README.md  
-    ┣ 📄 .gitignore  
-    ┣ 📄 pyproject.toml  
-    ┣ 📄 uv.lock  
-    ┗ 📄 poetry.lock  
+```bash
+git checkout -b feature/example-feature  
+git add .  
+git commit -m "Feat: 기능 설명"  
+git switch main  
+git merge --no-ff feature/example-feature -m "merge: feature/example-feature"  
 ```
+
+- 사용한 브랜치 이름 예시:  
+
+  - `feature/recover-state-with-default-data`  
+  - `feature/play-multiple-quizzes`  
+  - ...  
+
+- 커밋 메시지 예시:  
+  ```text
+  Feat: state.json 오류 시 기본 데이터 복구 기능 추가  
+  Feat: 여러 퀴즈 순차 풀이 기능 추가  
+  Feat: 퀴즈 게임 기록 저장 기능 추가  
+  Feat: 퀴즈 삭제 기능 구현  
+  ```
 
 
 
@@ -205,3 +273,29 @@
 - `best_score`: 지금까지 기록한 최고 점수  
 - `game_history`: 퀴즈를 푼 기록 목록  
 - `hint_count`: 해당 게임에서 힌트를 사용한 횟수  
+
+
+
+
+
+<br><br>
+
+## 📸 스크린샷 기록  
+요구사항에서는 실행 결과와 Git 기록을 스크린샷으로 남기는 것을 권장한다.  
+
+#### 추천 저장 경로:  
+
+```text
+  public/screenshots/  
+```
+
+- 권장 스크린샷:  
+  - 프로그램 시작 화면 (menu.png)  
+  - 퀴즈 풀이 화면    (play.png)  
+  - 랜덤 퀴즈 풀이 화면 (random_play.png)  
+  - 퀴즈 추가 화면    (add_quiz.png)  
+  - 퀴즈 목록 화면    (list_quiz.png)  
+  - 퀴즈 삭제 화면    (remove_quiz.png)  
+  - 점수 확인 화면    (score.png)  
+  - 기록 보기 화면    (history.png)  
+  - `git log --oneline --graph` 실행 결과  
