@@ -66,7 +66,12 @@ class ConsoleView:
     def show_quiz_list(self, quizzes):
         print(f'📋 등록된 퀴즈 목록 ( {len(quizzes)}개 )')
         for i, quiz in enumerate(quizzes, start=1): # enumerate는 리스트의 인덱스와 값을 동시에 가져올 수 있게 해주는 함수입니다. start=1은 인덱스가 1부터 시작하도록 설정하는 옵션입니다.
-            print(f'{i}. {quiz.question}')
+            if quiz.hint:
+                hint_status = "힌트 있음"
+            else:
+                hint_status = "힌트 없음"
+
+            print(f'{i}. {quiz.question} / {hint_status}')
 
     # -----------------------------------------------------------   
     def add_new_quiz(self):
