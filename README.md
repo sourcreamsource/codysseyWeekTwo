@@ -36,6 +36,7 @@
 
 ## 📁 파일 구조  
 - `models`: 퀴즈 객체와 게임 전체 흐름 담당  
+- `controllers`: 프로그램 실행 흐름과 메뉴 분기 담당  
 - `views`: 콘솔 출력과 사용자 입력 담당  
 - `validation`: 메뉴 번호, 정답 번호, 삭제 번호 등 입력 검증 담당  
 - `data`: 기본 `state.json` 생성용 더미 데이터 담당  
@@ -45,6 +46,8 @@
 ```markdown
     📦 codysseyWeekTwo  
     ┣ 📂 app  
+    ┃ ┣ 📂 controllers  
+    ┃ ┃ ┗ 📄 quiz_game_controller.py  
     ┃ ┣ 📂 data  
     ┃ ┃ ┗ 📄 tmp_data.py  
     ┃ ┣ 📂 models  

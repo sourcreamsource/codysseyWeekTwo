@@ -1,9 +1,8 @@
-from app.models.quiz_game import QuizGame
+from app.controllers.quiz_game_controller import QuizGameController
 
 def main() -> None:
-    game = QuizGame()
-    game.run()
-    # game.read_json_data()
+    controller = QuizGameController()
+    controller.run()
 
 if __name__ == "__main__":
     main()
