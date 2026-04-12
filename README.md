@@ -70,6 +70,74 @@
 ```
 
 
+
+<br><br>
+
+## 🗂️ 데이터 파일 설명  
+> `state.json` 경로/역할/스키마  
+- 경로: 프로젝트 루트 `state.json`  
+- 역할: `퀴즈 목록`, `최고 점수`, `게임 기록`을 저장  
+
+```json
+{  
+  "quizzes": [  
+    {  
+      "question": "문제",  
+      "choices": ["선택지1", "선택지2", "선택지3", "선택지4"],  
+      "answer": 1,  
+      "hint": "힌트 내용"  
+    }  
+  ],  
+  "best_score": 80,  
+  "game_history": [  
+    {  
+      "date": "2026-04-12 03:03:28",  
+      "questions": 5,  
+      "correct": 4,  
+      "hint_count": 1,  
+      "score": 75  
+    }  
+  ]  
+}  
+```
+
+- `quizzes`: 저장된 퀴즈 목록  
+- `question`: 문제 내용  
+- `choices`: 선택지 4개  
+- `answer`: 정답 번호, 1~4 중 하나  
+- `hint`: 힌트 내용, 없으면 빈 문자열  
+- `best_score`: 지금까지 기록한 최고 점수  
+- `game_history`: 퀴즈를 푼 기록 목록  
+- `hint_count`: 해당 게임에서 힌트를 사용한 횟수  
+
+
+<br>
+
+### 🟡 JSON으로 저장하는 이유와 JSON 형식의 특징  
+- JSON은 사람이 읽기 쉬운 텍스트 기반 데이터 형식이다.  
+- Python의 `dict`, `list`, `str`, `int`, `bool` 같은 기본 자료형과 구조가 비슷해서 처음 배우는 단계에서 이해하기 쉽다.  
+- 이 프로젝트의 퀴즈 데이터는 문제, 선택지, 정답, 힌트처럼 key-value 구조로 표현하기 좋다.  
+- `json.load()`를 사용하면 `state.json` 파일 내용을 Python의 `dict`로 쉽게 불러올 수 있다.  
+- `json.dump()`를 사용하면 Python의 `dict`를 다시 JSON 파일로 쉽게 저장할 수 있다.  
+- 별도 데이터베이스 설치 없이 표준 라이브러리만으로 저장/불러오기를 구현할 수 있다.  
+- 프로그램을 종료해도 `state.json` 파일이 남기 때문에 퀴즈 목록, 최고 점수, 게임 기록을 유지할 수 있다.  
+- JSON은 텍스트 파일이므로 Git에서 변경 내용을 비교하기 쉽다.  
+
+
+<br>
+
+### 🟡 퀴즈 데이터가 1000개 이상으로 늘어난다면 생길 수 있는 한계  
+- 현재 방식은 `state.json` 파일 전체를 한 번에 읽고 전체를 다시 저장한다.  
+- 퀴즈가 1000개 이상으로 늘어나면 파일 크기가 커지고, 프로그램 시작 시 전체 로딩 시간이 길어질 수 있다.  
+- 퀴즈 1개만 추가하거나 삭제해도 전체 JSON 파일을 다시 저장해야 하므로 비효율적이다.  
+- 여러 사용자가 동시에 파일을 수정하는 상황에서는 마지막에 저장한 내용이 이전 저장 내용을 덮어쓸 위험이 있다.  
+- JSON 파일은 특정 조건의 퀴즈만 빠르게 검색하거나 정렬하는 기능이 약하다.  
+- 예를 들어 “힌트가 있는 문제만 찾기”, “최근 추가한 문제만 찾기” 같은 기능은 매번 전체 리스트를 순회해야 한다.  
+- 파일이 커질수록 손상되었을 때 복구 부담도 커진다.  
+- 데이터가 더 많아지거나 검색/수정이 복잡해진다면 SQLite 같은 데이터베이스를 사용하는 편이 더 적절하다.  
+- 현재 프로젝트는 학습용 콘솔 프로그램이고 데이터 규모가 작기 때문에 JSON 방식이 충분히 적합하다.  
+
+
 <br><br>
 
 ## 🎮 메뉴 구성  
@@ -93,6 +161,19 @@
 - `ConsoleView`: 콘솔 출력 담당이다. 메뉴, 문제, 결과, 점수, 기록, 에러 메시지를 출력한다.  
 - `InputView`: 콘솔 입력 담당이다. 메뉴 번호, 정답 번호, 퀴즈 추가 입력, 삭제 번호, 힌트 사용 여부를 입력받는다.  
 - `Validation`: 입력 검증 담당이다. 메뉴 범위, 정답 범위, 삭제 번호 범위, 힌트 사용 여부 등을 검사한다.  
+
+
+<br>
+
+### 🟡 클래스는 왜 사용했는가?  
+- 이 프로젝트에서는 퀴즈 1개와 게임 전체 상태를 계속 유지해야 하므로 클래스를 사용했다.  
+- `Quiz` 객체는 `question`, `choices`, `answer`, `hint`를 하나의 문제 단위로 묶어준다.  
+- `QuizGame` 객체는 `quizzes`, `best_score`, `game_history`처럼 프로그램 실행 중 계속 유지되어야 하는 상태를 가진다.  
+- 함수만 사용하면 문제 데이터, 점수, 기록을 매번 인자로 넘겨야 해서 코드가 길어지고 실수하기 쉬워진다.  
+- 예를 들어 함수만 사용한다면 `question`, `choices`, `answer`, `hint`를 여러 함수에 계속 따로 전달해야 한다.  
+- 클래스를 사용하면 `quiz.is_correct(user_answer)`처럼 객체가 자기 데이터를 가지고 직접 동작할 수 있다.  
+- 즉 함수 중심 구현은 “동작”을 나누는 데 유리하고, 클래스 중심 구현은 “상태와 동작을 함께 묶는 것”에 유리하다.  
+- 이 프로젝트에서는 퀴즈 데이터와 게임 상태가 중요하므로 클래스가 더 적절하다.  
 
 
 
@@ -235,47 +316,43 @@ git merge --no-ff feature/example-feature -m "merge: feature/example-feature"
   ```
 
 
+<br>
+
+### 🟡 clone과 pull 실습 기록  
+- 원격 저장소 주소: `https://github.com/sourcreamsource/codysseyWeekTwo.git`  
+- `clone`은 원격 저장소를 로컬 컴퓨터에 처음 복사할 때 사용한다.  
+- `pull`은 원격 저장소의 최신 변경사항을 현재 로컬 브랜치로 가져올 때 사용한다.  
+- 이 프로젝트 요구사항의 Git 기초 명령어 실습 항목을 만족하기 위해 `clone`, `pull` 명령을 별도로 기록한다.  
+
+```bash
+git clone https://github.com/sourcreamsource/codysseyWeekTwo.git  
+
+git remote -v  
+origin  https://github.com/sourcreamsource/codysseyWeekTwo.git (fetch)  
+origin  https://github.com/sourcreamsource/codysseyWeekTwo.git (push)  
+
+cd codysseyWeekTwo  
+
+git pull origin main  
+```
+
+
+
 
 
 
 <br><br>
 
-## 🗂️ 데이터 파일 설명  
-> `state.json` 경로/역할/스키마  
-- 경로: 프로젝트 루트 `state.json`  
-- 역할: `퀴즈 목록`, `최고 점수`, `게임 기록`을 저장  
-
-```json
-{  
-  "quizzes": [  
-    {  
-      "question": "문제",  
-      "choices": ["선택지1", "선택지2", "선택지3", "선택지4"],  
-      "answer": 1,  
-      "hint": "힌트 내용"  
-    }  
-  ],  
-  "best_score": 80,  
-  "game_history": [  
-    {  
-      "date": "2026-04-12 03:03:28",  
-      "questions": 5,  
-      "correct": 4,  
-      "hint_count": 1,  
-      "score": 75  
-    }  
-  ]  
-}  
-```
-
-- `quizzes`: 저장된 퀴즈 목록  
-- `question`: 문제 내용  
-- `choices`: 선택지 4개  
-- `answer`: 정답 번호, 1~4 중 하나  
-- `hint`: 힌트 내용, 없으면 빈 문자열  
-- `best_score`: 지금까지 기록한 최고 점수  
-- `game_history`: 퀴즈를 푼 기록 목록  
-- `hint_count`: 해당 게임에서 힌트를 사용한 횟수  
+## 🔧 요구사항이 바뀐다면 먼저 수정할 위치  
+- 정답 채점 방식이 바뀐다면 [quiz.py](./app/models/quiz.py)의 `Quiz.is_correct()`를 먼저 확인한다.  
+- 점수 계산 방식이 바뀐다면 [quiz_game.py](./app/models/quiz_game.py)의 `QuizGame.quiz_result()`를 먼저 수정한다.  
+- 힌트 차감 점수가 바뀐다면 [quiz_game.py](./app/models/quiz_game.py)의 `QuizGame.quiz_result()`에서 `hint_count`를 사용해 점수를 차감하는 부분을 수정한다.  
+- 선택지 개수가 4개에서 5개로 바뀐다면 [input_view.py](./app/views/input_view.py)의 `InputView.input_quiz_choices()`를 먼저 수정한다.  
+- 선택지 개수가 바뀌면 [validation.py](./app/validation/validation.py)의 `Validation.validate_quiz_answer_num()`도 함께 수정해야 한다.  
+- 선택지 출력 방식이 바뀐다면 [console_view.py](./app/views/console_view.py)의 `ConsoleView.show_one_quiz()`를 수정한다.  
+- 메뉴 번호가 추가되거나 바뀐다면 [console_view.py](./app/views/console_view.py)의 `ConsoleView.show_menu()`와 [validation.py](./app/validation/validation.py)의 `Validation.validate_menu_selection_num()`을 수정한다.  
+- 메뉴 동작 흐름이 바뀐다면 [quiz_game_controller.py](./app/controllers/quiz_game_controller.py)의 `QuizGameController.run()`을 수정한다.  
+- 저장 데이터 구조가 바뀐다면 [quiz.py](./app/models/quiz.py)의 `quiz_to_dict()`, `dict_to_quiz()`와 [quiz_game.py](./app/models/quiz_game.py)의 저장/불러오기 메서드를 함께 확인한다.  
 
 
 
@@ -308,49 +385,48 @@ git merge --no-ff feature/example-feature -m "merge: feature/example-feature"
 
 ### 🖼️ 실행 화면 스크린샷  
 
-#### 1. 프로그램 시작 화면  
+#### ⚫️ 1. 프로그램 시작 화면  
 <img src="./public/screenshots/01_menu.jpg" width="550" alt="프로그램 시작 화면">
 
 <br>
 
-#### 2. 퀴즈 풀이 화면  
+#### ⚫️ 2. 퀴즈 풀이 화면  
 <img src="./public/screenshots/02_play.jpg" width="500" alt="퀴즈 풀이 화면">
 
 <br>
 
-#### 3. 랜덤 퀴즈 풀이 화면  
+#### ⚫️ 3. 랜덤 퀴즈 풀이 화면  
 <img src="./public/screenshots/03_random_play.jpg" width="600" alt="랜덤 퀴즈 풀이 화면">
 
 <br>
 
-#### 4. 퀴즈 추가 화면  
+#### ⚫️ 4. 퀴즈 추가 화면  
 <img src="./public/screenshots/04_add_quiz.jpg" width="500" alt="퀴즈 추가 화면">
 
 <br>
 
-#### 5. 퀴즈 목록 화면  
+#### ⚫️ 5. 퀴즈 목록 화면  
 <img src="./public/screenshots/05_list_quiz.jpg" width="700" alt="퀴즈 목록 화면">
 
 <br>
 
-#### 6. 퀴즈 삭제 화면  
+#### ⚫️ 6. 퀴즈 삭제 화면  
 <img src="./public/screenshots/06_remove_quiz.jpg" width="700" alt="퀴즈 삭제 화면">
 
 <br>
 
-#### 7. 점수 확인 화면  
+#### ⚫️ 7. 점수 확인 화면  
 <img src="./public/screenshots/07_score.jpg" width="500" alt="점수 확인 화면">
 
 <br>
 
-#### 8. 기록 보기 화면  
+#### ⚫️ 8. 기록 보기 화면  
 <img src="./public/screenshots/08_history.jpg" width="700" alt="기록 보기 화면">
 
 <br>
 
-#### 9. Git 로그 화면  
+#### ⚫️ 9. Git 로그 화면  
 <img src="./public/screenshots/09_git_log.jpg" width="1080" alt="git log --oneline --graph 실행 결과">
-
 
 
 
