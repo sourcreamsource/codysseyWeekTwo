@@ -429,5 +429,11 @@ git pull origin main
 <img src="./public/screenshots/09_git_log.jpg" width="1080" alt="git log --oneline --graph 실행 결과">
 
 
+#### ⚫️ 10. Git clone  
+<img src="./public/screenshots/10_git_clone.jpg" width="700" alt="git clone 실행 결과">
 
-git clone and push test
+
+#### ⚫️ 11. Git pull  
+<img src="./public/screenshots/11_git_pull.jpg" width="700" alt="git pull 실행 결과">
+
+
