@@ -9,12 +9,17 @@
 - 프로그램을 종료하고 다시 실행해도 저장된 퀴즈와 점수 기록을 유지한다.  
 
 
+
+
 <br><br>
 
 ## 🤔 퀴즈 주제 선정 이유  
 (출제자의 의도가 무엇일까???)  
-- 이 프로젝트의 목표가 Python 기초와 클래스, 파일 입출력, Git 사용법을 익히는 것이기 때문에 프로젝트 주제와 가장 잘 맞는다.  
-- 리스트, Boolean, 반복문, 딕셔너리, 파일 입출력처럼 초반 학습에서 자주 쓰는 개념을 문제로 구성했다.  
+- 이 프로젝트의 목표가 `Python 기초 문법과 클래스`, `파일 입출력`, `Git 사용법`을 익히는 것에 목적이 있는 것으로 파악되며,  
+- 방대한 양의 데이터를 다루게 될텐데 거기서 클래스와 객체를 이용하여 어떻게 관리할 것인지에 대해서 알 수 있다.  
+
+
+
 
 <br><br>
 
@@ -155,7 +160,20 @@
 
 <br><br>
 
-## 🧩 클래스 역할 정리  
+## 🧩 클래스  
+
+### 🟡 클래스는 왜 사용했는가?  
+- 역할을 묶는 것!  
+
+- 특정 데이터와 특정 기능을 한 곳에 묶어놓고, 객체로 생성을 하게 되면 특정 데이터 메모리에 올라가 있는 상태에서 원하는 특정 기능을 원하는대로 동작하게 할 수 있기 때문이다.  
+  - 클래스를 사용하면 `quiz.is_correct(user_answer)`처럼 객체가 자기 데이터를 가지고 직접 동작할 수 있다.  
+  - 즉 함수 중심 구현은 “동작”을 나누는 데 유리하고, 클래스 중심 구현은 “상태와 동작을 함께 묶는 것”에 유리하다.  
+  - 즉 함수 중심 구현은 “동작”을 나누는 데 유리하고, 클래스 중심 구현은 “상태와 동작을 함께 묶는 것”에 유리하다.  
+  
+
+<br>
+
+### 🟡 퀴즈게임 역할 정리  
 - `Quiz`: 퀴즈 1문제를 표현한다. 문제, 선택지, 정답, 힌트를 속성으로 가진다.  
 - `QuizGame`: 게임 전체를 관리한다. 퀴즈 목록, 최고 점수, 게임 기록, 저장/불러오기, 메뉴 흐름을 담당한다.  
 - `ConsoleView`: 콘솔 출력 담당이다. 메뉴, 문제, 결과, 점수, 기록, 에러 메시지를 출력한다.  
@@ -165,15 +183,6 @@
 
 <br>
 
-### 🟡 클래스는 왜 사용했는가?  
-- 이 프로젝트에서는 퀴즈 1개와 게임 전체 상태를 계속 유지해야 하므로 클래스를 사용했다.  
-- `Quiz` 객체는 `question`, `choices`, `answer`, `hint`를 하나의 문제 단위로 묶어준다.  
-- `QuizGame` 객체는 `quizzes`, `best_score`, `game_history`처럼 프로그램 실행 중 계속 유지되어야 하는 상태를 가진다.  
-- 함수만 사용하면 문제 데이터, 점수, 기록을 매번 인자로 넘겨야 해서 코드가 길어지고 실수하기 쉬워진다.  
-- 예를 들어 함수만 사용한다면 `question`, `choices`, `answer`, `hint`를 여러 함수에 계속 따로 전달해야 한다.  
-- 클래스를 사용하면 `quiz.is_correct(user_answer)`처럼 객체가 자기 데이터를 가지고 직접 동작할 수 있다.  
-- 즉 함수 중심 구현은 “동작”을 나누는 데 유리하고, 클래스 중심 구현은 “상태와 동작을 함께 묶는 것”에 유리하다.  
-- 이 프로젝트에서는 퀴즈 데이터와 게임 상태가 중요하므로 클래스가 더 적절하다.  
 
 
 
@@ -318,23 +327,18 @@ git merge --no-ff feature/example-feature -m "merge: feature/example-feature"
 
 <br>
 
-### 🟡 clone과 pull 실습 기록  
-- 원격 저장소 주소: `https://github.com/sourcreamsource/codysseyWeekTwo.git`  
-- `clone`은 원격 저장소를 로컬 컴퓨터에 처음 복사할 때 사용한다.  
-- `pull`은 원격 저장소의 최신 변경사항을 현재 로컬 브랜치로 가져올 때 사용한다.  
-- 이 프로젝트 요구사항의 Git 기초 명령어 실습 항목을 만족하기 위해 `clone`, `pull` 명령을 별도로 기록한다.  
+#### ⚫️ Git 로그 화면  
+<img src="./public/screenshots/09_git_log.jpg" width="1080" alt="git log --oneline --graph 실행 결과">
 
-```bash
-git clone https://github.com/sourcreamsource/codysseyWeekTwo.git  
+<br>
 
-git remote -v  
-origin  https://github.com/sourcreamsource/codysseyWeekTwo.git (fetch)  
-origin  https://github.com/sourcreamsource/codysseyWeekTwo.git (push)  
+#### ⚫️ Git clone  
+<img src="./public/screenshots/10_git_clone.jpg" width="700" alt="git clone 실행 결과">
 
-cd codysseyWeekTwo  
+<br>
 
-git pull origin main  
-```
+#### ⚫️ Git pull  
+<img src="./public/screenshots/11_git_pull.jpg" width="700" alt="git pull 실행 결과">
 
 
 
@@ -422,18 +426,3 @@ git pull origin main
 
 #### ⚫️ 8. 기록 보기 화면  
 <img src="./public/screenshots/08_history.jpg" width="700" alt="기록 보기 화면">
-
-<br>
-
-#### ⚫️ 9. Git 로그 화면  
-<img src="./public/screenshots/09_git_log.jpg" width="1080" alt="git log --oneline --graph 실행 결과">
-
-
-#### ⚫️ 10. Git clone  
-<img src="./public/screenshots/10_git_clone.jpg" width="700" alt="git clone 실행 결과">
-
-
-#### ⚫️ 11. Git pull  
-<img src="./public/screenshots/11_git_pull.jpg" width="700" alt="git pull 실행 결과">
-
-
