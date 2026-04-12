@@ -12,7 +12,7 @@
 <br><br>
 
 ## 🤔 퀴즈 주제 선정 이유  
-- 퀴즈 주제는 Python 기초 문법으로 정했다.  
+(출제자의 의도가 무엇일까???)  
 - 이 프로젝트의 목표가 Python 기초와 클래스, 파일 입출력, Git 사용법을 익히는 것이기 때문에 프로젝트 주제와 가장 잘 맞는다.  
 - 리스트, Boolean, 반복문, 딕셔너리, 파일 입출력처럼 초반 학습에서 자주 쓰는 개념을 문제로 구성했다.  
 
@@ -293,12 +293,64 @@ git merge --no-ff feature/example-feature -m "merge: feature/example-feature"
 ```
 
 - 권장 스크린샷:  
-  - 프로그램 시작 화면 (menu.png)  
-  - 퀴즈 풀이 화면    (play.png)  
-  - 랜덤 퀴즈 풀이 화면 (random_play.png)  
-  - 퀴즈 추가 화면    (add_quiz.png)  
-  - 퀴즈 목록 화면    (list_quiz.png)  
-  - 퀴즈 삭제 화면    (remove_quiz.png)  
-  - 점수 확인 화면    (score.png)  
-  - 기록 보기 화면    (history.png)  
-  - `git log --oneline --graph` 실행 결과  
+  - 프로그램 시작 화면 (01_menu.jpg)  
+  - 퀴즈 풀이 화면    (02_play.jpg)  
+  - 랜덤 퀴즈 풀이 화면 (03_random_play.jpg)  
+  - 퀴즈 추가 화면    (04_add_quiz.jpg)  
+  - 퀴즈 목록 화면    (05_list_quiz.jpg)  
+  - 퀴즈 삭제 화면    (06_remove_quiz.jpg)  
+  - 점수 확인 화면    (07_score.jpg)  
+  - 기록 보기 화면    (08_history.jpg)  
+  - `git log --oneline --graph` 실행 결과  (09_git_log.jpg)  
+
+
+<br><br>
+
+### 🖼️ 실행 화면 스크린샷  
+
+#### 1. 프로그램 시작 화면  
+<img src="./public/screenshots/01_menu.jpg" width="550" alt="프로그램 시작 화면">
+
+<br>
+
+#### 2. 퀴즈 풀이 화면  
+<img src="./public/screenshots/02_play.jpg" width="500" alt="퀴즈 풀이 화면">
+
+<br>
+
+#### 3. 랜덤 퀴즈 풀이 화면  
+<img src="./public/screenshots/03_random_play.jpg" width="600" alt="랜덤 퀴즈 풀이 화면">
+
+<br>
+
+#### 4. 퀴즈 추가 화면  
+<img src="./public/screenshots/04_add_quiz.jpg" width="500" alt="퀴즈 추가 화면">
+
+<br>
+
+#### 5. 퀴즈 목록 화면  
+<img src="./public/screenshots/05_list_quiz.jpg" width="700" alt="퀴즈 목록 화면">
+
+<br>
+
+#### 6. 퀴즈 삭제 화면  
+<img src="./public/screenshots/06_remove_quiz.jpg" width="700" alt="퀴즈 삭제 화면">
+
+<br>
+
+#### 7. 점수 확인 화면  
+<img src="./public/screenshots/07_score.jpg" width="500" alt="점수 확인 화면">
+
+<br>
+
+#### 8. 기록 보기 화면  
+<img src="./public/screenshots/08_history.jpg" width="700" alt="기록 보기 화면">
+
+<br>
+
+#### 9. Git 로그 화면  
+<img src="./public/screenshots/09_git_log.jpg" width="1080" alt="git log --oneline --graph 실행 결과">
+
+
+
+
