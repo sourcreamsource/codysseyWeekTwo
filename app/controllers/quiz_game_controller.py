@@ -4,16 +4,13 @@ from app.models.quiz_game import QuizGame
 
 class QuizGameController:
     def __init__(self) -> None:
-        # QuizGame은 퀴즈 목록, 점수, 저장/불러오기 같은 게임 상태와 기능을 담당한다.
         self.game = QuizGame()
 
-        # Controller는 게임 객체가 가진 view/input_view를 사용해서 흐름만 제어한다.
         self.view = self.game.view
         self.input_view = self.game.input_view
 
     def run(self) -> None:
         try:
-            # 프로그램이 시작되면 먼저 state.json 데이터를 메모리로 읽어온다.
             self.game.read_json_data()
 
             self.view.show_welcome()
@@ -31,7 +28,7 @@ class QuizGameController:
                     self.game.quiz_start()
 
                 elif select == "2":
-                    self.view.show_start_message(len(self.game.quizzes))
+                    self.view.show_random_quiz_count_message(len(self.game.quizzes))
                     self.game.quiz_start_random_by_count()
 
                 elif select == "3":
